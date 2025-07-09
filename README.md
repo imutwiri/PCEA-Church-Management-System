@@ -44,10 +44,6 @@ PCEA-Church-Management-System/
 └── (other assets)
 ```
 
-## Screenshots
-
-![Dashboard Screenshot](images/dashboard-screenshot.png) <!-- Add your screenshot if available -->
-
 ## Contributing
 
 Pull requests are welcome! For major changes, please open an issue first to discuss what you would like to change.
@@ -57,3 +53,4 @@ Pull requests are welcome! For major changes, please open an issue first to disc
 [MIT](LICENSE)
 
 ---
+© 2025 PCEA Church Management System
