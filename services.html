@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCEA Church Management System - Services</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'pcea-blue': '#003366',
+                        'pcea-blue-800': '#00264d',
+                        'pcea-gold': '#c19a3e',
+                        'pcea-light': '#f0f5fa'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .sidebar {
+            transition: all 0.3s ease;
+        }
+        .sidebar.active {
+            transform: translateX(0);
+        }
+        .sidebar-item:hover {
+            background-color: #00264d;
+        }
+        .btn-mpesa {
+            background-color: #00a650;
+        }
+        .btn-mpesa:hover {
+            background-color: #008a43;
+        }
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .service-live {
+            background-color: #dcfce7;
+            color: #16a34a;
+        }
+        .service-upcoming {
+            background-color: #dbeafe;
+            color: #2563eb;
+        }
+        .service-completed {
+            background-color: #f1f5f9;
+            color: #64748b;
+        }
+        .attendance-progress {
+            height: 8px;
+        }
+        .attendance-bar {
+            height: 100%;
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                z-index: 50;
+                transform: translateX(-100%);
+            }
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            .content-area {
+                padding-left: 0;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <div class="sidebar bg-pcea-blue text-white w-64 min-h-screen py-8 px-4 shadow-lg flex flex-col">
+            <div class="flex items-center justify-center mb-10">
+                <img src="images/PCEA-Logo-1.jpg" alt="PCEA Logo" class="h-12 w-12 rounded-full">
+                <h1 class="text-xl font-bold ml-3">PCEA Kenya</h1>
+            </div>
+            
+            <div class="mb-8 text-center">
+                <i class="fas fa-user-tie mr-3 text-pcea-gold"></i>
+                <h3 class="font-semibold mt-2">Rev. John Kinoti</h3>
+                <p class="text-sm text-pcea-gold">Pastor - PCEA Bahati</p>
+            </div>
+            
+            <nav>
+                <ul>
+                    <li class="mb-2">
+                        <a href="index.html" class="sidebar-item flex items-center py-3 px-4 rounded-lg">
+                            <i class="fas fa-tachometer-alt mr-3 text-pcea-gold"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="members.html" class="sidebar-item flex items-center py-3 px-4 rounded-lg">
+                            <i class="fas fa-users mr-3 text-pcea-gold"></i>
+                            <span>Members</span>
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="services.html" class="sidebar-item flex items-center py-3 px-4 rounded-lg bg-pcea-blue-800">
+                            <i class="fas fa-church mr-3 text-pcea-gold"></i>
+                            <span>Services</span>
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="#" class="sidebar-item flex items-center py-3 px-4 rounded-lg">
+                            <i class="fas fa-money-bill-wave mr-3 text-pcea-gold"></i>
+                            <span>Finance</span>
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="#" class="sidebar-item flex items-center py-3 px-4 rounded-lg">
+                            <i class="fas fa-calendar mr-3 text-pcea-gold"></i>
+                            <span>Events</span>
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="#" class="sidebar-item flex items-center py-3 px-4 rounded-lg">
+                            <i class="fas fa-user-friends mr-3 text-pcea-gold"></i>
+                            <span>Small Groups</span>
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="#" class="sidebar-item flex items-center py-3 px-4 rounded-lg">
+                            <i class="fas fa-file-alt mr-3 text-pcea-gold"></i>
+                            <span>Reports</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="mt-auto pt-10">
+                <ul>
+                    <li class="mb-2">
+                        <a href="#" class="sidebar-item flex items-center py-3 px-4 rounded-lg">
+                            <i class="fas fa-cog mr-3 text-pcea-gold"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="#" class="sidebar-item flex items-center py-3 px-4 rounded-lg">
+                            <i class="fas fa-language mr-3 text-pcea-gold"></i>
+                            <span>Swahili/English</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-item flex items-center py-3 px-4 rounded-lg">
+                            <i class="fas fa-sign-out-alt mr-3 text-pcea-gold"></i>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="flex-1 overflow-y-auto content-area">
+            <!-- Header -->
+            <header class="bg-white shadow-sm px-6 py-4 flex items-center justify-between sticky top-0 z-40">
+                <div class="flex items-center">
+                    <button id="mobileMenuBtn" class="mr-4 text-gray-600 hover:text-pcea-blue md:hidden">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                    <h2 class="text-xl font-semibold text-gray-800">Church Services</h2>
+                </div>
+                
+                <div class="flex items-center">
+                    <div class="mr-4 relative">
+                        <button class="text-gray-600 hover:text-pcea-blue relative">
+                            <i class="fas fa-bell text-xl"></i>
+                            <span class="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-red-500"></span>
+                        </button>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-user-tie mr-3 text-pcea-blue"></i>
+                        <span class="ml-2 text-gray-700">Rev. Kinoti</span>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Services Content -->
+            <main class="p-6">
+                <!-- Page Header with Actions -->
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800">Church Services</h1>
+                        <p class="text-gray-600 mt-1">Manage and track church services and attendance</p>
+                    </div>
+                    <div class="flex space-x-3 mt-4 md:mt-0">
+                        <button id="addServiceBtn" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center">
+                            <i class="fas fa-plus mr-2"></i> Add Service
+                        </button>
+                        <button class="border border-gray-300 hover:bg-gray-100 px-4 py-2 rounded-lg flex items-center">
+                            <i class="fas fa-calendar-alt mr-2"></i> View Calendar
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Service Stats Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-white rounded-lg shadow-sm p-4 flex items-center">
+                        <div class="bg-blue-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-users text-blue-500 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-sm">Avg. Attendance</p>
+                            <h3 class="text-xl font-bold text-gray-800">412</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow-sm p-4 flex items-center">
+                        <div class="bg-green-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-user-check text-green-500 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-sm">Today's Attendance</p>
+                            <h3 class="text-xl font-bold text-gray-800">387</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow-sm p-4 flex items-center">
+                        <div class="bg-purple-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-calendar-day text-purple-500 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-sm">Services This Month</p>
+                            <h3 class="text-xl font-bold text-gray-800">8</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow-sm p-4 flex items-center">
+                        <div class="bg-yellow-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-percentage text-yellow-500 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-sm">Attendance Growth</p>
+                            <h3 class="text-xl font-bold text-gray-800">+12.5%</h3>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service Schedule -->
+                <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl font-bold text-gray-800">Service Schedule</h2>
+                        <div class="flex space-x-2">
+                            <button class="bg-blue-100 text-blue-500 px-3 py-1 rounded-lg text-sm">
+                                <i class="fas fa-sync-alt mr-1"></i> Refresh
+                            </button>
+                            <button class="border border-gray-300 hover:bg-gray-100 px-3 py-1 rounded-lg text-sm">
+                                <i class="fas fa-filter mr-1"></i> Filter
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- Service Card 1 -->
+                        <div class="service-card bg-white rounded-lg border border-gray-200 overflow-hidden transition-all duration-300">
+                            <div class="p-4 border-b">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h3 class="font-bold text-lg text-gray-800">Sunday Morning Service</h3>
+                                        <div class="flex items-center mt-1">
+                                            <i class="far fa-calendar-alt text-gray-500 mr-2"></i>
+                                            <span class="text-gray-600">Today, 8:00 AM - 10:30 AM</span>
+                                        </div>
+                                    </div>
+                                    <span class="service-live px-2 py-1 rounded-full text-xs font-semibold">Live Now</span>
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                <div class="mb-4">
+                                    <p class="text-sm text-gray-500 mb-1">Preacher</p>
+                                    <p class="font-medium">Rev. John Kinoti</p>
+                                </div>
+                                <div class="mb-4">
+                                    <p class="text-sm text-gray-500 mb-1">Attendance</p>
+                                    <div class="flex items-center">
+                                        <span class="font-bold text-lg text-gray-800">387</span>
+                                        <span class="text-green-500 text-sm ml-2">+24 from last week</span>
+                                    </div>
+                                    <div class="attendance-progress bg-gray-200 rounded-full mt-1">
+                                        <div class="attendance-bar bg-green-500 rounded-full" style="width: 86%"></div>
+                                    </div>
+                                    <p class="text-xs text-gray-500 mt-1">Capacity: 450 (86% full)</p>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2 mt-4">
+                                    <button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-lg text-sm">
+                                        <i class="fas fa-qrcode mr-1"></i> Scan Attendance
+                                    </button>
+                                    <button class="border border-gray-300 hover:bg-gray-100 px-3 py-2 rounded-lg text-sm">
+                                        <i class="fas fa-list mr-1"></i> View Details
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Service Card 2 -->
+                        <div class="service-card bg-white rounded-lg border border-gray-200 overflow-hidden transition-all duration-300">
+                            <div class="p-4 border-b">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h3 class="font-bold text-lg text-gray-800">Sunday Evening Service</h3>
+                                        <div class="flex items-center mt-1">
+                                            <i class="far fa-calendar-alt text-gray-500 mr-2"></i>
+                                            <span class="text-gray-600">Today, 4:00 PM - 6:00 PM</span>
+                                        </div>
+                                    </div>
+                                    <span class="service-upcoming px-2 py-1 rounded-full text-xs font-semibold">Upcoming</span>
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                <div class="mb-4">
+                                    <p class="text-sm text-gray-500 mb-1">Preacher</p>
+                                    <p class="font-medium">Rev. Sarah Mwangi</p>
+                                </div>
+                                <div class="mb-4">
+                                    <p class="text-sm text-gray-500 mb-1">Expected Attendance</p>
+                                    <div class="flex items-center">
+                                        <span class="font-bold text-lg text-gray-800">210</span>
+                                        <span class="text-blue-500 text-sm ml-2">Based on previous</span>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2 mt-4">
+                                    <button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-lg text-sm">
+                                        <i class="fas fa-edit mr-1"></i> Edit Service
+                                    </button>
+                                    <button class="border border-gray-300 hover:bg-gray-100 px-3 py-2 rounded-lg text-sm">
+                                        <i class="fas fa-bell mr-1"></i> Remind Members
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Service Card 3 -->
+                        <div class="service-card bg-white rounded-lg border border-gray-200 overflow-hidden transition-all duration-300">
+                            <div class="p-4 border-b">
+                                <div class="flex justify-between items-start">
+                                    <div>
+                                        <h3 class="font-bold text-lg text-gray-800">Wednesday Bible Study</h3>
+                                        <div class="flex items-center mt-1">
+                                            <i class="far fa-calendar-alt text-gray-500 mr-2"></i>
+                                            <span class="text-gray-600">Jul 23, 5:00 PM - 6:30 PM</span>
+                                        </div>
+                                    </div>
+                                    <span class="service-completed px-2 py-1 rounded-full text-xs font-semibold">Completed</span>
+                                </div>
+                            </div>
+                            <div class="p-4">
+                                <div class="mb-4">
+                                    <p class="text-sm text-gray-500 mb-1">Preacher</p>
+                                    <p class="font-medium">Elder Peter Kamau</p>
+                                </div>
+                                <div class="mb-4">
+                                    <p class="text-sm text-gray-500 mb-1">Attendance</p>
+                                    <div class="flex items-center">
+                                        <span class="font-bold text-lg text-gray-800">142</span>
+                                        <span class="text-green-500 text-sm ml-2">+8 from last week</span>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2 mt-4">
+                                    <button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-lg text-sm">
+                                        <i class="fas fa-chart-bar mr-1"></i> View Report
+                                    </button>
+                                    <button class="border border-gray-300 hover:bg-gray-100 px-3 py-2 rounded-lg text-sm">
+                                        <i class="fas fa-redo mr-1"></i> Repeat Service
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service History and Statistics -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                    <!-- Service History Table -->
+                    <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                        <div class="px-6 py-4 border-b">
+                            <h3 class="font-semibold text-gray-800">Recent Services</h3>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-gray-200">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date & Time</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Service</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Attendance</th>
+                                        <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Preacher</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white divide-y divide-gray-200">
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">Jul 23, 2025</div>
+                                            <div class="text-sm text-gray-500">5:00 PM - 6:30 PM</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-medium text-gray-900">Wednesday Bible Study</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">142</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            Elder Peter Kamau
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">Jul 18, 2025</div>
+                                            <div class="text-sm text-gray-500">10:00 AM - 12:00 PM</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-medium text-gray-900">Youth Fellowship</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">98</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            Rev. Sarah Mwangi
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">Jul 20, 2025</div>
+                                            <div class="text-sm text-gray-500">8:00 AM - 10:30 AM</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-medium text-gray-900">Sunday Morning Service</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">363</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            Rev. John Kinoti
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">Jul 13, 2025</div>
+                                            <div class="text-sm text-gray-500">4:00 PM - 6:00 PM</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-medium text-gray-900">Sunday Evening Service</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">198</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            Rev. Sarah Mwangi
+                                        </td>
+                                    </tr>
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">Jul 9, 2025</div>
+                                            <div class="text-sm text-gray-500">5:00 PM - 6:30 PM</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm font-medium text-gray-900">Wednesday Bible Study</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap">
+                                            <div class="text-sm text-gray-900">134</div>
+                                        </td>
+                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                            Elder Peter Kamau
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="px-6 py-3 border-t text-center">
+                            <a href="#" class="text-blue-500 hover:text-blue-700 text-sm font-medium">View All Services</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Attendance Statistics -->
+                    <div class="bg-white rounded-lg shadow-sm p-6">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="font-semibold text-gray-800">Attendance Trends</h3>
+                            <select class="border rounded px-3 py-1 text-sm focus:outline-none focus:border-blue-500">
+                                <option>Last 4 Weeks</option>
+                                <option>Last 8 Weeks</option>
+                                <option>Last 12 Weeks</option>
+                            </select>
+                        </div>
+                        <div class="h-72">
+                            <canvas id="attendanceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Service Types -->
+                <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl font-bold text-gray-800">Service Types</h2>
+                        <button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg text-sm">
+                            <i class="fas fa-plus mr-1"></i> Add Service Type
+                        </button>
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div class="border border-gray-200 rounded-lg p-4 hover:bg-gray-50">
+                            <div class="flex items-center">
+                                <div class="bg-blue-100 p-3 rounded-full mr-3">
+                                    <i class="fas fa-church text-blue-500"></i>
+                                </div>
+                                <h3 class="font-semibold">Sunday Morning</h3>
+                            </div>
+                            <p class="text-sm text-gray-500 mt-2">Regular Sunday morning worship service</p>
+                            <div class="mt-3 text-sm">
+                                <span class="inline-block bg-gray-100 rounded-full px-3 py-1 text-xs font-semibold text-gray-700 mr-2">8:00 AM</span>
+                                <span class="inline-block bg-gray-100 rounded-full px-3 py-1 text-xs font-semibold text-gray-700">Duration: 2.5h</span>
+                            </div>
+                        </div>
+                        
+                        <div class="border border-gray-200 rounded-lg p-4 hover:bg-gray-50">
+                            <div class="flex items-center">
+                                <div class="bg-purple-100 p-3 rounded-full mr-3">
+                                    <i class="fas fa-moon text-purple-500"></i>
+                                </div>
+                                <h3 class="font-semibold">Sunday Evening</h3>
+                            </div>
+                            <p class="text-sm text-gray-500 mt-2">Evening fellowship and worship</p>
+                            <div class="mt-3 text-sm">
+                                <span class="inline-block bg-gray-100 rounded-full px-3 py-1 text-xs font-semibold text-gray-700 mr-2">4:00 PM</span>
+                                <span class="inline-block bg-gray-100 rounded-full px-3 py-1 text-xs font-semibold text-gray-700">Duration: 2h</span>
+                            </div>
+                        </div>
+                        
+                        <div class="border border-gray-200 rounded-lg p-4 hover:bg-gray-50">
+                            <div class="flex items-center">
+                                <div class="bg-green-100 p-3 rounded-full mr-3">
+                                    <i class="fas fa-book text-green-500"></i>
+                                </div>
+                                <h3 class="font-semibold">Bible Study</h3>
+                            </div>
+                            <p class="text-sm text-gray-500 mt-2">Mid-week scripture study and discussion</p>
+                            <div class="mt-3 text-sm">
+                                <span class="inline-block bg-gray-100 rounded-full px-3 py-1 text-xs font-semibold text-gray-700 mr-2">5:00 PM</span>
+                                <span class="inline-block bg-gray-100 rounded-full px-3 py-1 text-xs font-semibold text-gray-700">Duration: 1.5h</span>
+                            </div>
+                        </div>
+                        
+                        <div class="border border-gray-200 rounded-lg p-4 hover:bg-gray-50">
+                            <div class="flex items-center">
+                                <div class="bg-yellow-100 p-3 rounded-full mr-3">
+                                    <i class="fas fa-users text-yellow-500"></i>
+                                </div>
+                                <h3 class="font-semibold">Youth Fellowship</h3>
+                            </div>
+                            <p class="text-sm text-gray-500 mt-2">Special service for youth members</p>
+                            <div class="mt-3 text-sm">
+                                <span class="inline-block bg-gray-100 rounded-full px-3 py-1 text-xs font-semibold text-gray-700 mr-2">10:00 AM</span>
+                                <span class="inline-block bg-gray-100 rounded-full px-3 py-1 text-xs font-semibold text-gray-700">Duration: 2h</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <!-- Add Service Modal -->
+    <div id="addServiceModal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+        <div class="absolute inset-0 bg-black opacity-70"></div>
+        <div class="relative bg-white rounded-lg shadow-xl w-full max-w-2xl z-50">
+            <div class="p-4 border-b">
+                <h3 class="text-lg font-semibold text-gray-800">Schedule New Service</h3>
+            </div>
+            <div class="p-6 overflow-y-auto max-h-[70vh]">
+                <form>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Service Type</label>
+                            <select class="border rounded-lg px-4 py-2 w-full focus:outline-none focus:border-blue-500">
+                                <option>Select Service Type</option>
+                                <option>Sunday Morning Service</option>
+                                <option>Sunday Evening Service</option>
+                                <option>Bible Study</option>
+                                <option>Youth Fellowship</option>
+                                <option>Women's Guild Meeting</option>
+                                <option>Men Fellowship</option>
+                                <option>Special Service</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Preacher</label>
+                            <select class="border rounded-lg px-4 py-2 w-full focus:outline-none focus:border-blue-500">
+                                <option>Select Preacher</option>
+                                <option>Rev. John Kinoti</option>
+                                <option>Rev. Sarah Mwangi</option>
+                                <option>Elder Peter Kamau</option>
+                                <option>Deaconess Grace Mumbi</option>
+                                <option>Guest Preacher</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Date</label>
+                            <input type="date" class="border rounded-lg px-4 py-2 w-full focus:outline-none focus:border-blue-500" value="2025-07-23">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Time</label>
+                            <input type="time" class="border rounded-lg px-4 py-2 w-full focus:outline-none focus:border-blue-500" value="08:00">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Duration (hours)</label>
+                            <input type="number" class="border rounded-lg px-4 py-2 w-full focus:outline-none focus:border-blue-500" value="2.5" step="0.5">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Location</label>
+                            <select class="border rounded-lg px-4 py-2 w-full focus:outline-none focus:border-blue-500">
+                                <option>Main Sanctuary</option>
+                                <option>Fellowship Hall</option>
+                                <option>Youth Chapel</option>
+                                <option>Outdoor Pavilion</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Service Theme</label>
+                        <input type="text" class="border rounded-lg px-4 py-2 w-full focus:outline-none focus:border-blue-500" placeholder="Enter service theme or title">
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Service Description</label>
+                        <textarea class="border rounded-lg px-4 py-2 w-full focus:outline-none focus:border-blue-500" rows="3" placeholder="Brief description of the service"></textarea>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="inline-flex items-center">
+                            <input type="checkbox" class="rounded border-gray-300 text-blue-500 focus:ring-blue-500" checked>
+                            <span class="ml-2 text-sm text-gray-600">Send notification to members</span>
+                        </label>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-3 mt-6">
+                        <button type="button" id="cancelServiceBtn" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
+                            Cancel
+                        </button>
+                        <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
+                            Schedule Service
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('active');
+        });
+        
+        // Add service modal
+        const addServiceBtn = document.getElementById('addServiceBtn');
+        const serviceModal = document.getElementById('addServiceModal');
+        const cancelServiceBtn = document.getElementById('cancelServiceBtn');
+        
+        addServiceBtn.addEventListener('click', function() {
+            serviceModal.classList.remove('hidden');
+        });
+        
+        cancelServiceBtn.addEventListener('click', function() {
+            serviceModal.classList.add('hidden');
+        });
+        
+        // Close modals when clicking outside
+        serviceModal.addEventListener('click', function(e) {
+            if (e.target === serviceModal) {
+                serviceModal.classList.add('hidden');
+            }
+        });
+        
+        // Initialize Charts
+        document.addEventListener('DOMContentLoaded', function() {
+            // Attendance Chart
+            const attendanceCtx = document.getElementById('attendanceChart').getContext('2d');
+            const weekLabels = ['Week 1', 'Week 2', 'Week 3', 'Week 4'];
+            
+            new Chart(attendanceCtx, {
+                type: 'bar',
+                data: {
+                    labels: weekLabels,
+                    datasets: [{
+                        label: 'Sunday Morning',
+                        data: [320, 340, 350, 387],
+                        backgroundColor: 'rgba(0, 51, 102, 0.7)',
+                        borderColor: 'rgba(0, 51, 102, 1)',
+                        borderWidth: 1
+                    }, {
+                        label: 'Sunday Evening',
+                        data: [180, 190, 200, 210],
+                        backgroundColor: 'rgba(204, 0, 0, 0.7)',
+                        borderColor: 'rgba(204, 0, 0, 1)',
+                        borderWidth: 1
+                    }, {
+                        label: 'Bible Study',
+                        data: [120, 130, 140, 142],
+                        backgroundColor: 'rgba(0, 102, 0, 0.7)',
+                        borderColor: 'rgba(0, 102, 0, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Attendance'
+                            }
+                        }
+                    }
+                }
+            });
+        });
+        
+        // Simulate live attendance updates
+        function simulateLiveAttendance() {
+            const liveCard = document.querySelector('.service-live').closest('.service-card');
+            if (liveCard) {
+                const attendanceElement = liveCard.querySelector('.text-lg');
+                let attendance = parseInt(attendanceElement.textContent);
+                
+                // Simulate new arrivals
+                if (attendance < 420) {
+                    attendance += Math.floor(Math.random() * 5) + 1;
+                    attendanceElement.textContent = attendance;
+                    
+                    // Update progress bar
+                    const progress = Math.min(100, Math.round((attendance / 450) * 100));
+                    const progressBar = liveCard.querySelector('.attendance-bar');
+                    progressBar.style.width = `${progress}%`;
+                    
+                    // Update capacity text
+                    const capacityText = liveCard.querySelector('.text-xs');
+                    capacityText.textContent = `Capacity: 450 (${progress}% full)`;
+                }
+            }
+        }
+        
+        // Update attendance every 10 seconds for the live service
+        setInterval(simulateLiveAttendance, 10000);
+    </script>
+</body>
+</html>
