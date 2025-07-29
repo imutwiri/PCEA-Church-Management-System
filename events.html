@@ -886,15 +886,6 @@
             });
         });
         
-        // Simulate event tracking for today's event
-        const trackButton = document.querySelector('.bg-blue-500.text-white');
-        if(trackButton) {
-            trackButton.addEventListener('click', function() {
-                alert('Tracking attendance for Women Guild Meeting...');
-                // In a real app, this would open attendance tracking
-            });
-        }
-        
         // Initialize event status indicators
         document.querySelectorAll('.status-upcoming, .status-ongoing, .status-completed').forEach(status => {
             status.addEventListener('click', function() {
