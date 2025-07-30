@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PCEA Church Management System - Small Groups</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'pcea-blue': '#003366',
+                        'pcea-blue-800': '#00264d',
+                        'pcea-gold': '#c19a3e',
+                        'pcea-light': '#f0f5fa'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .sidebar {
+            transition: all 0.3s ease;
+        }
+        .sidebar.active {
+            transform: translateX(0);
+        }
+        .sidebar-item:hover {
+            background-color: #00264d;
+        }
+        .btn-mpesa {
+            background-color: #00a650;
+        }
+        .btn-mpesa:hover {
+            background-color: #008a43;
+        }
+        .group-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+        .group-youth {
+            border-left: 4px solid #2563eb;
+        }
+        .group-women {
+            border-left: 4px solid #c026d3;
+        }
+        .group-men {
+            border-left: 4px solid #16a34a;
+        }
+        .group-children {
+            border-left: 4px solid #ea580c;
+        }
+        .group-prayer {
+            border-left: 4px solid #ca8a04;
+        }
+        .group-bible {
+            border-left: 4px solid #0891b2;
+        }
+        .attendance-progress {
+            height: 8px;
+        }
+        .attendance-fill {
+            height: 100%;
+        }
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed;
+                z-index: 50;
+                transform: translateX(-100%);
+            }
+            .sidebar.active {
+                transform: translateX(0);
+            }
+            .content-area {
+                padding-left: 0;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <div class="sidebar bg-pcea-blue text-white w-64 min-h-screen py-8 px-4 shadow-lg flex flex-col">
+            <div class="flex items-center justify-center mb-10">
+                <img src="images/PCEA-Logo-1.jpg" alt="PCEA Logo" class="h-12 w-12 rounded-full">
+                <h1 class="text-xl font-bold ml-3">PCEA Kenya</h1>
+            </div>
+            
+            <div class="mb-8 text-center">
+                <i class="fas fa-user-tie mr-3 text-pcea-gold"></i>
+                <h3 class="font-semibold mt-2">Rev. John Kinoti</h3>
+                <p class="text-sm text-pcea-gold">Pastor - PCEA Bahati</p>
+            </div>
+            
+            <nav>
+                <ul>
+                    <li class="mb-2">
+                        <a href="index.html" class="sidebar-item flex items-center py-3 px-4 rounded-lg">
+                            <i class="fas fa-tachometer-alt mr-3 text-pcea-gold"></i>
+                            <span>Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="members.html" class="sidebar-item flex items-center py-3 px-4 rounded-lg">
+                            <i class="fas fa-users mr-3 text-pcea-gold"></i>
+                            <span>Members</span>
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="services.html" class="sidebar-item flex items-center py-3 px-4 rounded-lg">
+                            <i class="fas fa-church mr-3 text-pcea-gold"></i>
+                            <span>Services</span>
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="finance.html" class="sidebar-item flex items-center py-3 px-4 rounded-lg">
+                            <i class="fas fa-money-bill-wave mr-3 text-pcea-gold"></i>
+                            <span>Finance</span>
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="events.html" class="sidebar-item flex items-center py-3 px-4 rounded-lg">
+                            <i class="fas fa-calendar mr-3 text-pcea-gold"></i>
+                            <span>Events</span>
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="smallgroups.html" class="sidebar-item flex items-center py-3 px-4 rounded-lg bg-pcea-blue-800">
+                            <i class="fas fa-user-friends mr-3 text-pcea-gold"></i>
+                            <span>Small Groups</span>
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="#" class="sidebar-item flex items-center py-3 px-4 rounded-lg">
+                            <i class="fas fa-file-alt mr-3 text-pcea-gold"></i>
+                            <span>Reports</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="mt-auto pt-10">
+                <ul>
+                    <li class="mb-2">
+                        <a href="#" class="sidebar-item flex items-center py-3 px-4 rounded-lg">
+                            <i class="fas fa-cog mr-3 text-pcea-gold"></i>
+                            <span>Settings</span>
+                        </a>
+                    </li>
+                    <li class="mb-2">
+                        <a href="#" class="sidebar-item flex items-center py-3 px-4 rounded-lg">
+                            <i class="fas fa-language mr-3 text-pcea-gold"></i>
+                            <span>Swahili/English</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="sidebar-item flex items-center py-3 px-4 rounded-lg">
+                            <i class="fas fa-sign-out-alt mr-3 text-pcea-gold"></i>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="flex-1 overflow-y-auto content-area">
+            <!-- Header -->
+            <header class="bg-white shadow-sm px-6 py-4 flex items-center justify-between sticky top-0 z-40">
+                <div class="flex items-center">
+                    <button id="mobileMenuBtn" class="mr-4 text-gray-600 hover:text-pcea-blue md:hidden">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                    <h2 class="text-xl font-semibold text-gray-800">Small Groups</h2>
+                </div>
+                
+                <div class="flex items-center">
+                    <div class="mr-4 relative">
+                        <button class="text-gray-600 hover:text-pcea-blue relative">
+                            <i class="fas fa-bell text-xl"></i>
+                            <span class="absolute -top-1 -right-1 h-3 w-3 rounded-full bg-red-500"></span>
+                        </button>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-user-tie mr-3 text-pcea-blue"></i>
+                        <span class="ml-2 text-gray-700">Rev. Kinoti</span>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Small Groups Content -->
+            <main class="p-6">
+                <!-- Page Header with Actions -->
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6">
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800">Small Groups Ministry</h1>
+                        <p class="text-gray-600 mt-1">Manage fellowship groups, Bible studies, and ministry teams</p>
+                    </div>
+                    <div class="flex space-x-3 mt-4 md:mt-0">
+                        <button id="addGroupBtn" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg flex items-center">
+                            <i class="fas fa-plus mr-2"></i> New Group
+                        </button>
+                        <button class="border border-gray-300 hover:bg-gray-100 px-4 py-2 rounded-lg flex items-center">
+                            <i class="fas fa-file-export mr-2"></i> Export
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Small Groups Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                    <div class="bg-white rounded-lg shadow-sm p-4 flex items-center">
+                        <div class="bg-blue-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-user-friends text-blue-500 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-sm">Total Groups</p>
+                            <h3 class="text-xl font-bold text-gray-800">24</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow-sm p-4 flex items-center">
+                        <div class="bg-green-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-users text-green-500 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-sm">Total Members</p>
+                            <h3 class="text-xl font-bold text-gray-800">642</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow-sm p-4 flex items-center">
+                        <div class="bg-purple-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-calendar-check text-purple-500 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-sm">Avg. Attendance</p>
+                            <h3 class="text-xl font-bold text-gray-800">82%</h3>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow-sm p-4 flex items-center">
+                        <div class="bg-yellow-100 p-3 rounded-full mr-4">
+                            <i class="fas fa-church text-yellow-500 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-sm">Active Ministries</p>
+                            <h3 class="text-xl font-bold text-gray-800">8</h3>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Group Types -->
+                <div class="bg-white rounded-lg shadow-sm p-6 mb-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl font-bold text-gray-800">Group Types</h2>
+                        <button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-lg text-sm">
+                            <i class="fas fa-plus mr-1"></i> Add Type
+                        </button>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                        <div class="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 flex flex-col items-center">
+                            <div class="bg-blue-100 p-3 rounded-full mb-3">
+                                <i class="fas fa-pray text-blue-500"></i>
+                            </div>
+                            <h4 class="font-medium text-gray-800 text-center">Prayer Groups</h4>
+                            <p class="text-sm text-gray-500 text-center mt-1">6 groups</p>
+                        </div>
+                        
+                        <div class="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 flex flex-col items-center">
+                            <div class="bg-purple-100 p-3 rounded-full mb-3">
+                                <i class="fas fa-book-bible text-purple-500"></i>
+                            </div>
+                            <h4 class="font-medium text-gray-800 text-center">Bible Study</h4>
+                            <p class="text-sm text-gray-500 text-center mt-1">8 groups</p>
+                        </div>
+                        
+                        <div class="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 flex flex-col items-center">
+                            <div class="bg-green-100 p-3 rounded-full mb-3">
+                                <i class="fas fa-person-half-dress text-green-500"></i>
+                            </div>
+                            <h4 class="font-medium text-gray-800 text-center">Women</h4>
+                            <p class="text-sm text-gray-500 text-center mt-1">4 groups</p>
+                        </div>
+                        
+                        <div class="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 flex flex-col items-center">
+                            <div class="bg-yellow-100 p-3 rounded-full mb-3">
+                                <i class="fas fa-person text-yellow-500"></i>
+                            </div>
+                            <h4 class="font-medium text-gray-800 text-center">Men</h4>
+                            <p class="text-sm text-gray-500 text-center mt-1">3 groups</p>
+                        </div>
+                        
+                        <div class="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 flex flex-col items-center">
+                            <div class="bg-red-100 p-3 rounded-full mb-3">
+                                <i class="fas fa-child text-red-500"></i>
+                            </div>
+                            <h4 class="font-medium text-gray-800 text-center">Children</h4>
+                            <p class="text-sm text-gray-500 text-center mt-1">2 groups</p>
+                        </div>
+                        
+                        <div class="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 flex flex-col items-center">
+                            <div class="bg-indigo-100 p-3 rounded-full mb-3">
+                                <i class="fas fa-people-arrows text-indigo-500"></i>
+                            </div>
+                            <h4 class="font-medium text-gray-800 text-center">Youth</h4>
+                            <p class="text-sm text-gray-500 text-center mt-1">5 groups</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Groups List -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <!-- Group Card 1 -->
+                    <div class="group-card group-bible bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300">
+                        <div class="p-4 border-b flex justify-between items-start">
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-800">Judea Bible Study Group</h3>
+                                <div class="flex items-center mt-1">
+                                    <i class="fas fa-user text-gray-500 mr-2"></i>
+                                    <span class="text-gray-600">Leader: Elder Peter Kamau</span>
+                                </div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-semibold">Active</span>
+                        </div>
+                        <div class="p-4">
+                            <div class="grid grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <p class="text-xs text-gray-500">Meeting Day</p>
+                                    <p class="font-medium">Every Wednesday</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">Meeting Time</p>
+                                    <p class="font-medium">5:00 PM - 6:30 PM</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">Location</p>
+                                    <p class="font-medium">Fellowship Hall</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">Members</p>
+                                    <p class="font-medium">24 members</p>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <p class="text-xs text-gray-500 mb-1">Avg. Attendance</p>
+                                <div class="flex items-center">
+                                    <span class="font-bold text-lg text-gray-800">92%</span>
+                                    <span class="text-green-500 text-sm ml-2">+8% from last month</span>
+                                </div>
+                                <div class="attendance-progress bg-gray-200 rounded-full mt-1">
+                                    <div class="attendance-fill bg-green-500 rounded-full" style="width: 92%"></div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between">
+                                <button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-lg text-sm">
+                                    <i class="fas fa-users mr-1"></i> View Members
+                                </button>
+                                <button class="border border-gray-300 hover:bg-gray-100 px-3 py-2 rounded-lg text-sm">
+                                    <i class="fas fa-calendar-check mr-1"></i> Attendance
+                                </button>
+                                <button class="text-blue-500 hover:text-blue-700 flex items-center">
+                                    <i class="fas fa-edit mr-1"></i> Edit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Group Card 2 -->
+                    <div class="group-card group-women bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300">
+                        <div class="p-4 border-b flex justify-between items-start">
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-800">Women's Guild Fellowship</h3>
+                                <div class="flex items-center mt-1">
+                                    <i class="fas fa-user text-gray-500 mr-2"></i>
+                                    <span class="text-gray-600">Leader: Deaconess Grace Mumbi</span>
+                                </div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-semibold">Active</span>
+                        </div>
+                        <div class="p-4">
+                            <div class="grid grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <p class="text-xs text-gray-500">Meeting Day</p>
+                                    <p class="font-medium">Every Thursday</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">Meeting Time</p>
+                                    <p class="font-medium">10:00 AM - 12:00 PM</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">Location</p>
+                                    <p class="font-medium">Women's Guild Hall</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">Members</p>
+                                    <p class="font-medium">42 members</p>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <p class="text-xs text-gray-500 mb-1">Avg. Attendance</p>
+                                <div class="flex items-center">
+                                    <span class="font-bold text-lg text-gray-800">85%</span>
+                                    <span class="text-green-500 text-sm ml-2">+5% from last month</span>
+                                </div>
+                                <div class="attendance-progress bg-gray-200 rounded-full mt-1">
+                                    <div class="attendance-fill bg-green-500 rounded-full" style="width: 85%"></div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between">
+                                <button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-lg text-sm">
+                                    <i class="fas fa-users mr-1"></i> View Members
+                                </button>
+                                <button class="border border-gray-300 hover:bg-gray-100 px-3 py-2 rounded-lg text-sm">
+                                    <i class="fas fa-calendar-check mr-1"></i> Attendance
+                                </button>
+                                <button class="text-blue-500 hover:text-blue-700 flex items-center">
+                                    <i class="fas fa-edit mr-1"></i> Edit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Group Card 3 -->
+                    <div class="group-card group-youth bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300">
+                        <div class="p-4 border-b flex justify-between items-start">
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-800">Youth Empowerment Group</h3>
+                                <div class="flex items-center mt-1">
+                                    <i class="fas fa-user text-gray-500 mr-2"></i>
+                                    <span class="text-gray-600">Leader: James Kamau</span>
+                                </div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-semibold">Active</span>
+                        </div>
+                        <div class="p-4">
+                            <div class="grid grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <p class="text-xs text-gray-500">Meeting Day</p>
+                                    <p class="font-medium">Every Saturday</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">Meeting Time</p>
+                                    <p class="font-medium">5:00 PM - 7:00 PM</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">Location</p>
+                                    <p class="font-medium">Youth Chapel</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">Members</p>
+                                    <p class="font-medium">36 members</p>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <p class="text-xs text-gray-500 mb-1">Avg. Attendance</p>
+                                <div class="flex items-center">
+                                    <span class="font-bold text-lg text-gray-800">78%</span>
+                                    <span class="text-red-500 text-sm ml-2">-3% from last month</span>
+                                </div>
+                                <div class="attendance-progress bg-gray-200 rounded-full mt-1">
+                                    <div class="attendance-fill bg-yellow-500 rounded-full" style="width: 78%"></div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between">
+                                <button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-lg text-sm">
+                                    <i class="fas fa-users mr-1"></i> View Members
+                                </button>
+                                <button class="border border-gray-300 hover:bg-gray-100 px-3 py-2 rounded-lg text-sm">
+                                    <i class="fas fa-calendar-check mr-1"></i> Attendance
+                                </button>
+                                <button class="text-blue-500 hover:text-blue-700 flex items-center">
+                                    <i class="fas fa-edit mr-1"></i> Edit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Group Card 4 -->
+                    <div class="group-card group-prayer bg-white rounded-lg shadow-md overflow-hidden transition-all duration-300">
+                        <div class="p-4 border-b flex justify-between items-start">
+                            <div>
+                                <h3 class="font-bold text-lg text-gray-800">Early Morning Prayer Warriors</h3>
+                                <div class="flex items-center mt-1">
+                                    <i class="fas fa-user text-gray-500 mr-2"></i>
+                                    <span class="text-gray-600">Leader: Elder Joseph Njoroge</span>
+                                </div>
+                            </div>
+                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-semibold">Active</span>
+                        </div>
+                        <div class="p-4">
+                            <div class="grid grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <p class="text-xs text-gray-500">Meeting Day</p>
+                                    <p class="font-medium">Every Weekday</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">Meeting Time</p>
+                                    <p class="font-medium">5:30 AM - 6:30 AM</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">Location</p>
+                                    <p class="font-medium">Main Sanctuary</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-gray-500">Members</p>
+                                    <p class="font-medium">18 members</p>
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <p class="text-xs text-gray-500 mb-1">Avg. Attendance</p>
+                                <div class="flex items-center">
+                                    <span class="font-bold text-lg text-gray-800">88%</span>
+                                    <span class="text-green-500 text-sm ml-2">Consistent</span>
+                                </div>
+                                <div class="attendance-progress bg-gray-200 rounded-full mt-1">
+                                    <div class="attendance-fill bg-green-500 rounded-full" style="width: 88%"></div>
+                                </div>
+                            </div>
+                            <div class="flex justify-between">
+                                <button class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-2 rounded-lg text-sm">
+                                    <i class="fas fa-users mr-1"></i> View Members
+                                </button>
+                                <button class="border border-gray-300 hover:bg-gray-100 px-3 py-2 rounded-lg text-sm">
+                                    <i class="fas fa-calendar-check mr-1"></i> Attendance
+                                </button>
+                                <button class="text-blue-500 hover:text-blue-700 flex items-center">
+                                    <i class="fas fa-edit mr-1"></i> Edit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Group Activities and Reports -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+                    <!-- Recent Activities -->
+                    <div class="bg-white rounded-lg shadow-sm overflow-hidden">
+                        <div class="px-6 py-4 border-b">
+                            <h3 class="font-semibold text-gray-800">Recent Group Activities</h3>
+                        </div>
+                        <div class="divide-y">
+                            <div class="p-4 hover:bg-gray-50">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <p class="font-medium text-gray-800">Bible Study: Book of Romans Chapter 8</p>
+                                        <p class="text-sm text-gray-500">Bahati Bible Study Group • Jul 23, 2025</p>
+                                    </div>
+                                    <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-semibold">Completed</span>
+                                </div>
+                                <div class="mt-2 text-sm text-gray-600">
+                                    <i class="fas fa-user mr-1"></i> 22 attendees • <i class="fas fa-clock mr-1"></i> 1.5 hours
+                                </div>
+                            </div>
+                            <div class="p-4 hover:bg-gray-50">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <p class="font-medium text-gray-800">Community Outreach - Bahati Slums</p>
+                                        <p class="text-sm text-gray-500">Women's Guild Fellowship • Jul 19, 2025</p>
+                                    </div>
+                                    <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-semibold">Successful</span>
+                                </div>
+                                <div class="mt-2 text-sm text-gray-600">
+                                    <i class="fas fa-user mr-1"></i> 35 participants • <i class="fas fa-utensils mr-1"></i> Food distribution
+                                </div>
+                            </div>
+                            <div class="p-4 hover:bg-gray-50">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <p class="font-medium text-gray-800">Career Development Workshop</p>
+                                        <p class="text-sm text-gray-500">Youth Empowerment Group • Jul 18, 2025</p>
+                                    </div>
+                                    <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-semibold">Completed</span>
+                                </div>
+                                <div class="mt-2 text-sm text-gray-600">
+                                    <i class="fas fa-user mr-1"></i> 28 attendees • <i class="fas fa-chalkboard-user mr-1"></i> Guest speaker
+                                </div>
+                            </div>
+                            <div class="p-4 hover:bg-gray-50">
+                                <div class="flex justify-between items-center">
+                                    <div>
+                                        <p class="font-medium text-gray-800">Intercessory Prayer Session</p>
+                                        <p class="text-sm text-gray-500">Prayer Warriors • Jul 22, 2025</p>
+                                    </div>
+                                    <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs font-semibold">Ongoing</span>
+                                </div>
+                                <div class="mt-2 text-sm text-gray-600">
+                                    <i class="fas fa-user mr-1"></i> 15 attendees • <i class="fas fa-praying-hands mr-1"></i> Focus: Church leadership
+                                </div>
+                            </div>
+                        </div>
+                        <div class="px-6 py-3 border-t text-center">
+                            <a href="#" class="text-blue-500 hover:text-blue-700 text-sm font-medium">View All Activities</a>
+                        </div>
+                    </div>
+                    
+                    <!-- Group Reports -->
+                    <div class="bg-white rounded-lg shadow-sm p-6">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="font-semibold text-gray-800">Group Reports</h3>
+                            <button class="border border-gray-300 hover:bg-gray-100 px-3 py-1 rounded-lg text-sm">
+                                <i class="fas fa-cog mr-1"></i> Settings
+                            </button>
+                        </div>
+                        
+                        <div class="grid grid-cols-2 gap-4">
+                            <a href="#" class="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 flex flex-col items-center">
+                                <div class="bg-blue-100 p-3 rounded-full mb-3">
+                                    <i class="fas fa-chart-line text-blue-500 text-xl"></i>
+                                </div>
+                                <h4 class="font-medium text-gray-800 text-center">Attendance Report</h4>
+                                <p class="text-sm text-gray-500 text-center mt-1">Monthly attendance trends</p>
+                            </a>
+                            
+                            <a href="#" class="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 flex flex-col items-center">
+                                <div class="bg-green-100 p-3 rounded-full mb-3">
+                                    <i class="fas fa-user-plus text-green-500 text-xl"></i>
+                                </div>
+                                <h4 class="font-medium text-gray-800 text-center">Growth Report</h4>
+                                <p class="text-sm text-gray-500 text-center mt-1">New members per group</p>
+                            </a>
+                            
+                            <a href="#" class="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 flex flex-col items-center">
+                                <div class="bg-yellow-100 p-3 rounded-full mb-3">
+                                    <i class="fas fa-hand-holding-heart text-yellow-500 text-xl"></i>
+                                </div>
+                                <h4 class="font-medium text-gray-800 text-center">Ministry Report</h4>
+                                <p class="text-sm text-gray-500 text-center mt-1">Outreach and service activities</p>
+                            </a>
+                            
+                            <a href="#" class="border border-gray-200 rounded-lg p-4 hover:bg-gray-50 flex flex-col items-center">
+                                <div class="bg-purple-100 p-3 rounded-full mb-3">
+                                    <i class="fas fa-file-invoice-dollar text-purple-500 text-xl"></i>
+                                </div>
+                                <h4 class="font-medium text-gray-800 text-center">Financial Report</h4>
+                                <p class="text-sm text-gray-500 text-center mt-1">Group contributions and expenses</p>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Group Leaderboard -->
+                <div class="bg-white rounded-lg shadow-sm p-6 mb-8">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-xl font-bold text-gray-800">Group Leaderboard</h2>
+                        <select class="border rounded px-3 py-1 text-sm focus:outline-none focus:border-blue-500">
+                            <option>This Month</option>
+                            <option>Last Month</option>
+                            <option>Quarterly</option>
+                        </select>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Group</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Leader</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Attendance</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Growth</th>
+                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Activities</th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">Judea Bible Study</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                                            Bible Study
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        Elder Peter Kamau
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <span class="text-sm font-medium">92%</span>
+                                            <span class="text-green-500 ml-1">↑</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-semibold">
+                                        +3
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        8
+                                    </td>
+                                </tr>
+                                
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">Prayer Warriors</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                            Prayer
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        Elder Joseph Njoroge
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <span class="text-sm font-medium">88%</span>
+                                            <span class="text-gray-500 ml-1">→</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-semibold">
+                                        +1
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        20
+                                    </td>
+                                </tr>
+                                
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">Women's Guild</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-purple-100 text-purple-800">
+                                            Women
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        Deaconess Grace Mumbi
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <span class="text-sm font-medium">85%</span>
+                                            <span class="text-green-500 ml-1">↑</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-semibold">
+                                        +2
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        6
+                                    </td>
+                                </tr>
+                                
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">Youth Empowerment</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-indigo-100 text-indigo-800">
+                                            Youth
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        James Kamau
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <span class="text-sm font-medium">78%</span>
+                                            <span class="text-red-500 ml-1">↓</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-semibold">
+                                        +0
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        5
+                                    </td>
+                                </tr>
+                                
+                                <tr class="hover:bg-gray-50">
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="text-sm font-medium text-gray-900">Men Fellowship</div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                            Men
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                                        Elder David Mwangi
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <div class="flex items-center">
+                                            <span class="text-sm font-medium">80%</span>
+                                            <span class="text-green-500 ml-1">↑</span>
+                                        </div>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 font-semibold">
+                                        +1
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        4
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <!-- Add Group Modal -->
+    <div id="addGroupModal" class="fixed inset-0 z-50 flex items-center justify-center hidden">
+        <div class="absolute inset-0 bg-black opacity-70"></div>
+        <div class="relative bg-white rounded-lg shadow-xl w-full max-w-2xl z-50">
+            <div class="p-4 border-b">
+                <h3 class="text-lg font-semibold text-gray-800">Create New Small Group</h3>
+            </div>
+            <div class="p-6 overflow-y-auto max-h-[70vh]">
+                <form>
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Group Name</label>
+                        <input type="text" class="border rounded-lg px-4 py-2 w-full focus:outline-none focus:border-blue-500" placeholder="Enter group name">
+                    </div>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Group Type</label>
+                            <select class="border rounded-lg px-4 py-2 w-full focus:outline-none focus:border-blue-500">
+                                <option>Bible Study</option>
+                                <option>Prayer Group</option>
+                                <option>Women Fellowship</option>
+                                <option>Men Fellowship</option>
+                                <option>Youth Group</option>
+                                <option>Children's Ministry</option>
+                                <option>Support Group</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Group Leader</label>
+                            <select class="border rounded-lg px-4 py-2 w-full focus:outline-none focus:border-blue-500">
+                                <option>Select Leader</option>
+                                <option>Elder Peter Kamau</option>
+                                <option>Deaconess Grace Mumbi</option>
+                                <option>James Kamau</option>
+                                <option>Elder Joseph Njoroge</option>
+                                <option>Elder David Mwangi</option>
+                                <option>Rev. Sarah Mwangi</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Meeting Day</label>
+                            <select class="border rounded-lg px-4 py-2 w-full focus:outline-none focus:border-blue-500">
+                                <option>Sunday</option>
+                                <option>Monday</option>
+                                <option>Tuesday</option>
+                                <option>Wednesday</option>
+                                <option>Thursday</option>
+                                <option>Friday</option>
+                                <option>Saturday</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Meeting Time</label>
+                            <input type="time" class="border rounded-lg px-4 py-2 w-full focus:outline-none focus:border-blue-500" value="17:00">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Meeting Duration</label>
+                            <select class="border rounded-lg px-4 py-2 w-full focus:outline-none focus:border-blue-500">
+                                <option>30 minutes</option>
+                                <option>1 hour</option>
+                                <option>1.5 hours</option>
+                                <option>2 hours</option>
+                                <option>2.5 hours</option>
+                                <option>3 hours</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">Meeting Location</label>
+                            <select class="border rounded-lg px-4 py-2 w-full focus:outline-none focus:border-blue-500">
+                                <option>Main Sanctuary</option>
+                                <option>Fellowship Hall</option>
+                                <option>Youth Chapel</option>
+                                <option>Women's Guild Hall</option>
+                                <option>Conference Room</option>
+                                <option>Off-site Location</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Group Description</label>
+                        <textarea class="border rounded-lg px-4 py-2 w-full focus:outline-none focus:border-blue-500" rows="3" placeholder="Describe the purpose and focus of this group"></textarea>
+                    </div>
+                    
+                    <div class="mb-4">
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Target Members</label>
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-blue-500 focus:ring-blue-500">
+                                <span class="ml-2 text-sm text-gray-600">All Members</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-blue-500 focus:ring-blue-500">
+                                <span class="ml-2 text-sm text-gray-600">Youth (18-35)</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-blue-500 focus:ring-blue-500">
+                                <span class="ml-2 text-sm text-gray-600">Adults (36-60)</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-blue-500 focus:ring-blue-500">
+                                <span class="ml-2 text-sm text-gray-600">Seniors (60+)</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-blue-500 focus:ring-blue-500">
+                                <span class="ml-2 text-sm text-gray-600">New Converts</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="rounded border-gray-300 text-blue-500 focus:ring-blue-500">
+                                <span class="ml-2 text-sm text-gray-600">Leaders</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end space-x-3 mt-6">
+                        <button type="button" id="cancelGroupBtn" class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50">
+                            Cancel
+                        </button>
+                        <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">
+                            Create Group
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Mobile menu toggle
+        document.getElementById('mobileMenuBtn').addEventListener('click', function() {
+            document.querySelector('.sidebar').classList.toggle('active');
+        });
+        
+        // Add group modal
+        const addGroupBtn = document.getElementById('addGroupBtn');
+        const groupModal = document.getElementById('addGroupModal');
+        const cancelGroupBtn = document.getElementById('cancelGroupBtn');
+        
+        addGroupBtn.addEventListener('click', function() {
+            groupModal.classList.remove('hidden');
+        });
+        
+        cancelGroupBtn.addEventListener('click', function() {
+            groupModal.classList.add('hidden');
+        });
+        
+        // Close modals when clicking outside
+        groupModal.addEventListener('click', function(e) {
+            if (e.target === groupModal) {
+                groupModal.classList.add('hidden');
+            }
+        });
+        
+        // Simulate group card interactions
+        document.querySelectorAll('.group-card').forEach(card => {
+            card.addEventListener('click', function(e) {
+                if (!e.target.closest('button')) {
+                    const groupName = this.querySelector('h3').textContent;
+                    alert(`Viewing details for group: ${groupName}`);
+                }
+            });
+        });
+        
+        // Simulate attendance tracking
+        document.querySelectorAll('.bg-blue-500.text-white').forEach(button => {
+            button.addEventListener('click', function() {
+                const groupName = this.closest('.group-card').querySelector('h3').textContent;
+                alert(`Tracking attendance for: ${groupName}`);
+            });
+        });
+    </script>
+</body>
+</html>
