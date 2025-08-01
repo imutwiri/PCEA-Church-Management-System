@@ -95,6 +95,7 @@
                 </ul>
             </div>
         </div>
+        <div class="sidebar-overlay" onclick="document.querySelector('.sidebar').classList.remove('active')"></div>
         
         <!-- Main Content -->
         <div class="flex-1 overflow-y-auto content-area">
@@ -478,45 +479,53 @@
     
     <script>
         // Mobile menu toggle
+        const sidebar = document.querySelector('.sidebar');
+        const sidebarOverlay = document.querySelector('.sidebar-overlay');
         document.getElementById('mobileMenuBtn').addEventListener('click', function() {
-            document.querySelector('.sidebar').classList.toggle('active');
+            sidebar.classList.toggle('active');
+            if (sidebar.classList.contains('active')) {
+                sidebarOverlay.style.display = 'block';
+            } else {
+                sidebarOverlay.style.display = 'none';
+            }
         });
         
         // Attendance scanner modal
         const scanBtn = document.getElementById('scanAttendanceBtn');
         const scannerModal = document.getElementById('attendanceScanner');
         const cancelScanBtn = document.getElementById('cancelScanBtn');
-        
-        scanBtn.addEventListener('click', function() {
-            scannerModal.classList.remove('hidden');
-        });
-        
-        cancelScanBtn.addEventListener('click', function() {
-            scannerModal.classList.add('hidden');
-        });
+        if (scanBtn && scannerModal && cancelScanBtn) {
+            scanBtn.addEventListener('click', function() {
+                scannerModal.classList.remove('hidden');
+            });
+            cancelScanBtn.addEventListener('click', function() {
+                scannerModal.classList.add('hidden');
+            });
+            scannerModal.addEventListener('click', function(e) {
+                if (e.target === scannerModal) {
+                    scannerModal.classList.add('hidden');
+                }
+            });
+        }
         
         // MPESA payment modal
         const mpesaModal = document.getElementById('mpesaPaymentModal');
         const cancelMpesaBtn = document.getElementById('cancelMpesaBtn');
-        
-        document.querySelector('.btn-mpesa').addEventListener('click', function(e) {
-            if (e.target.classList.contains('btn-mpesa') && !e.target.closest('.relative')) {
+        document.querySelectorAll('.btn-mpesa').forEach(btn => {
+            btn.addEventListener('click', function(e) {
                 mpesaModal.classList.remove('hidden');
-            }
-        });
-        
-        cancelMpesaBtn.addEventListener('click', function() {
-            mpesaModal.classList.add('hidden');
-        });
-        
-        // Close modals when clicking outside
-        [scannerModal, mpesaModal].forEach(modal => {
-            modal.addEventListener('click', function(e) {
-                if (e.target === modal) {
-                    modal.classList.add('hidden');
-                }
             });
         });
+        if (cancelMpesaBtn && mpesaModal) {
+            cancelMpesaBtn.addEventListener('click', function() {
+                mpesaModal.classList.add('hidden');
+            });
+            mpesaModal.addEventListener('click', function(e) {
+                if (e.target === mpesaModal) {
+                    mpesaModal.classList.add('hidden');
+                }
+            });
+        }
         
         // Charts
         document.addEventListener('DOMContentLoaded', function() {
@@ -596,25 +605,27 @@
         });
         
         // Validate Kenyan phone number
-        document.querySelector('.btn-mpesa').addEventListener('click', function() {
+        document.addEventListener('DOMContentLoaded', function() {
             const phoneInput = document.querySelector('input[type="tel"]');
-            phoneInput.addEventListener('blur', function() {
-                const phone = this.value;
-                // Kenyan phone regex (accepts 07..., +254... or 254...)
-                const regex = /^((\+)?254|0)?[17]\d{8}$/;
-                if (!regex.test(phone)) {
-                    this.classList.add('border-red-500');
-                    // Show error
-                } else {
-                    this.classList.remove('border-red-500');
-                    // Format to +254...
-                    if (phone.startsWith('0')) {
-                        this.value = '+254' + phone.substr(1);
-                    } else if (phone.startsWith('254')) {
-                        this.value = '+' + phone;
+            if (phoneInput) {
+                phoneInput.addEventListener('blur', function() {
+                    const phone = this.value;
+                    // Kenyan phone regex (accepts 07..., +254... or 254...)
+                    const regex = /^((\+)?254|0)?[17]\d{8}$/;
+                    if (!regex.test(phone)) {
+                        this.classList.add('border-red-500');
+                        // Show error
+                    } else {
+                        this.classList.remove('border-red-500');
+                        // Format to +254...
+                        if (phone.startsWith('0')) {
+                            this.value = '+254' + phone.substr(1);
+                        } else if (phone.startsWith('254')) {
+                            this.value = '+' + phone;
+                        }
                     }
-                }
-            });
+                });
+            }
         });
     </script>
 </body>
