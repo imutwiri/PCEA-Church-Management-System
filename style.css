@@ -13,7 +13,7 @@ body {
 }
         
 .sidebar {
- transition: all 0.3s ease;
+ transition: transform 0.3s ease;
 }
         
 .sidebar-item:hover {
@@ -48,19 +48,24 @@ body {
 @media (max-width: 768px) {
     .sidebar {
         position: fixed;
-        left: -100%;
-        z-index: 50;
-    }
-            
-    .sidebar.active {
         left: 0;
+        top: 0;
+        height: 100vh;
+        z-index: 50;
+        transform: translateX(-100%);
+        width: 16rem;
     }
-            
-    .mobile-menu-btn {
+    .sidebar.active {
+        transform: translateX(0);
+    }
+    .sidebar-overlay {
+        display: none;
+    }
+    .sidebar.active ~ .sidebar-overlay {
         display: block;
-    }
-            
-    .content-area {
-        margin-left: 0;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.5);
+        z-index: 40;
     }
 }
